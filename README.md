@@ -68,46 +68,62 @@ Exemplo de envio de uma Nota Fiscal Eletrônica (Modelo 55) em ambiente de homol
 O SDK fornece tipagem completa para os objetos de envio (`NotaFiscalEnvio`).
 
 ```ts
-import { BrasilNFe, NotaFiscalEnvio } from 'brasilnfe';
+import { BrasilNFe, NotaFiscalEnvio } from 'brasilnfe'; //
 
-const bnfe = new BrasilNFe('SEU_TOKEN_AQUI');
+const bnfe = new BrasilNFe('SEU_TOKEN_DE_PRODUCAO_OU_HOMOLOGACAO');
 
+// Exemplo de NF-e (Modelo 55) mais robusto
 const payloadNFe: NotaFiscalEnvio = {
+    // Cabeçalho
     TipoAmbiente: 2, // 1 - Produção, 2 - Homologação
-    ModeloDocumento: 55,
+    ModeloDocumento: 55, // 55 = NF-e
+    Finalidade: 1, // 1 = Normal
     NaturezaOperacao: 'VENDA DE MERCADORIA',
-    Finalidade: 1, // Normal
-    ConsumidorFinal: true,
+    IndicadorPresenca: 1, // 1 = Operação presencial
+    ConsumidorFinal: false, // Geralmente false para NF-e B2B (entre empresas)
+    EnviarEmail: true, // Envia o XML e PDF para o email do cliente se disponível
+
+    // Destinatário Completo
     Cliente: {
         CpfCnpj: '00000000000191',
-        NmCliente: 'CLIENTE TESTE SDK',
+        NmCliente: 'EMPRESA EXEMPLO LTDA',
+        IndicadorIe: 1, // 1 = Contribuinte ICMS
+        Ie: '123456789', // Inscrição Estadual obrigatória para contribuintes
+        Email: 'financeiro@cliente.com.br',
         Endereco: {
-            Logradouro: 'Av. Paulista',
-            Numero: '1000',
-            Bairro: 'Bela Vista',
+            Logradouro: 'Av. Industrial',
+            Numero: '500',
+            Complemento: 'Galpão B',
+            Bairro: 'Distrito Industrial',
             CodMunicipio: '3550308',
             Municipio: 'São Paulo',
             Uf: 'SP',
-            Cep: '01310100'
+            Cep: '01000000'
         }
     },
+
+    // Lista de Produtos
     Produtos: [
         {
-            CodProdutoServico: 'PROD123',
-            NmProduto: 'CONSULTORIA DE SOFTWARE',
-            NCM: '99999999',
-            CFOP: 5102,
+            CodProdutoServico: 'COD-100',
+            NmProduto: 'PARAFUSADEIRA ELETRICA 220V',
+            NCM: '84672100', // Código NCM válido
+            CEST: '2105300', // Código CEST se necessário
+            CFOP: 5102, // Venda de mercadoria adquirida de terceiros
             UnidadeComercial: 'UN',
-            Quantidade: 1,
-            ValorUnitario: 100.00,
-            ValorTotal: 100.00,
+            Quantidade: 2,
+            ValorUnitario: 150.00,
+            ValorTotal: 300.00, // 2 * 150
+            
+            // Impostos (Exemplo Simples Nacional)
             Imposto: {
                 ICMS: {
-                    CodSituacaoTributaria: '102',
+                    CodSituacaoTributaria: '102', // Tributada sem permissão de crédito (Simples Nacional)
+                    OrigemProduto: 0, // 0 = Nacional
                     AliquotaICMS: 0
                 },
                 PIS: {
-                    CodSituacaoTributaria: '99',
+                    CodSituacaoTributaria: '99', // Outras operações
                     Aliquota: 0
                 },
                 COFINS: {
@@ -116,30 +132,143 @@ const payloadNFe: NotaFiscalEnvio = {
                 }
             }
         }
-    ]
+    ],
+
+    // Informações de Pagamento (Obrigatório na NF-e 4.0)
+    Pagamentos: [
+        {
+            IndicadorPagamento: 0, // 0 = À vista, 1 = A prazo
+            FormaPagamento: '15', // 15 = Boleto Bancário
+            VlPago: 300.00
+        }
+    ],
+
+    // Informações de Transporte (Frete)
+    Transporte: {
+        ModalidadeFrete: 0, // 0 = Por conta do emitente (CIF)
+        Volume: {
+            QuantidadeVolume: 2,
+            Especie: 'CAIXA',
+            PesoBruto: 5.500,
+            PesoLiquido: 5.000
+        }
+    }
 };
 
-async function emitirNota() {
+async function emitirNFe() {
     try {
+        console.log('Enviando NF-e...');
+        //
         const resposta = await bnfe.notaFiscal.enviarNotaFiscal(payloadNFe);
-        
+
         if (resposta.ReturnNF?.Ok) {
-            console.log('✅ Sucesso! Chave:', resposta.ReturnNF.ChaveNF);
-            console.log('XML Base64:', resposta.Base64Xml);
+            console.log('✅ NF-e Autorizada!');
+            console.log('Chave:', resposta.ReturnNF.ChaveNF);
+            console.log('Protocolo:', resposta.ReturnNF.Numero);
+            console.log('PDF (Base64):', resposta.Base64File ? 'Recebido' : 'Não gerado');
         } else {
-            console.error('⚠️ Nota rejeitada:', resposta.erros);
+            console.error('⚠️ Erro na emissão ou rejeição:');
+            // Itera sobre os erros retornados pela API ou Sefaz
+            resposta.erros?.forEach(erro => {
+                console.error(`- [${erro.codigo}] ${erro.descricao} (Correção: ${erro.correcao})`);
+            });
         }
     } catch (error: any) {
-        console.error('❌ Erro na requisição:', error.message);
+        console.error('❌ Erro de comunicação/exceção:', error.message);
     }
 }
 
-emitirNota();
+emitirNFe();
 ```
 
 ---
 
-## ❌ Exemplo 2: Cancelamento de Nota
+## 📄 Exemplo 2: Emitindo uma NFC-e
+
+Exemplo de envio de uma NFC-e (Nota Fiscal de Consumidor - Modelo 65) em ambiente de homologação.  
+O SDK fornece tipagem completa para os objetos de envio (`NotaFiscalEnvio`).
+
+```ts
+import { BrasilNFe, NotaFiscalEnvio } from 'brasilnfe'; //
+
+const bnfe = new BrasilNFe('SEU_TOKEN_AQUI');
+
+// Exemplo de NFC-e (Modelo 65)
+const payloadNFCe: NotaFiscalEnvio = {
+    TipoAmbiente: 2, // 2 = Homologação
+    ModeloDocumento: 65, // 65 = NFC-e
+    Finalidade: 1, // Normal
+    NaturezaOperacao: 'VENDA AO CONSUMIDOR',
+    IndicadorPresenca: 1, // 1 = Operação presencial
+    ConsumidorFinal: true, // Obrigatório true para NFC-e
+    
+    // Na NFC-e, o cliente é opcional para valores baixos ou pode ter apenas CPF/Nome
+    Cliente: {
+        CpfCnpj: '12345678909', // CPF do consumidor (opcional em muitos casos)
+        // Endereço não é obrigatório na NFC-e presencial
+    },
+
+    Produtos: [
+        {
+            CodProdutoServico: 'REFRIGERANTE-LATA',
+            NmProduto: 'REFRIGERANTE LATA 350ML',
+            NCM: '22021000',
+            CFOP: 5102,
+            UnidadeComercial: 'UN',
+            Quantidade: 1,
+            ValorUnitario: 5.00,
+            ValorTotal: 5.00,
+            Imposto: {
+                ICMS: {
+                    CodSituacaoTributaria: '102', // Simples Nacional
+                    AliquotaICMS: 0
+                },
+                // PIS e COFINS muitas vezes são simplificados ou zerados dependendo do regime
+                PIS: { CodSituacaoTributaria: '99', Aliquota: 0 },
+                COFINS: { CodSituacaoTributaria: '99', Aliquota: 0 }
+            }
+        }
+    ],
+
+    // Pagamento via Cartão de Crédito (Exemplo)
+    Pagamentos: [
+        {
+            IndicadorPagamento: 0, // À vista
+            FormaPagamento: '03', // 03 = Cartão de Crédito (01=Dinheiro, 17=PIX)
+            VlPago: 5.00,
+            BandeiraOperadora: '01', // 01=Visa, 02=Mastercard (Necessário para TEF/Cartão)
+            // Se integrado com maquininha (TEF), precisaria enviar CNPJCredenciadora e NumeroAutorizacao
+        }
+    ]
+};
+
+async function emitirNFCe() {
+    try {
+        console.log('Enviando NFC-e...');
+        //
+        const resposta = await bnfe.notaFiscal.enviarNotaFiscal(payloadNFCe);
+
+        if (resposta.ReturnNF?.Ok) {
+            console.log('✅ NFC-e Autorizada!');
+            console.log('Link QRCode:', resposta.ReturnNF.UrlConsulta); // (Campo hipotético, verifique se a API retorna a URL no objeto completo ou no XML)
+            console.log('Chave:', resposta.ReturnNF.ChaveNF);
+        } else {
+            console.error('⚠️ NFC-e Rejeitada:');
+            resposta.erros?.forEach(erro => {
+                console.error(`- ${erro.descricao}`);
+            });
+        }
+    } catch (error: any) {
+        console.error('❌ Erro:', error.message);
+    }
+}
+
+emitirNFCe();
+```
+
+---
+
+## ❌ Exemplo 3: Cancelamento de Nota
 
 ```ts
 import { CancelarNotaFiscalEnvio } from 'brasilnfe';
@@ -158,7 +287,7 @@ bnfe.eventos.cancelarNotaFiscal(dadosCancelamento)
 
 ---
 
-## 🔎 Exemplo 3: Consultando Status da Sefaz
+## 🔎 Exemplo 4: Consultando Status da Sefaz
 
 ```ts
 const status = await bnfe.consultas.consultarStatusSefaz({
