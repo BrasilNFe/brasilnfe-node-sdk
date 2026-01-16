@@ -1,14 +1,14 @@
 import { Pessoa } from '../Outros/Pessoa';
 import { NewError } from '../Outros/Erros';
 
-export interface Participante extends Pessoa {
+export interface CteParticipante extends Pessoa {
     CpfCnpj?: string;
     Nome?: string;
     NomeFantasia?: string;
     Ie?: string;
 }
 
-export interface Tomador extends Participante {
+export interface CteTomador extends CteParticipante {
 /**
  * Indicador de IE:
  * 1 - Contribuinte do ICMS
@@ -27,7 +27,7 @@ export interface Tomador extends Participante {
     TipoTomador?: number;
 }
 
-export interface Servico {
+export interface CteServico {
 /**
  * Tipo do Serviço:
  * 0 - Normal
@@ -120,11 +120,11 @@ export interface DetalheCarga {
     TipoMedida?: string;
 }
 
-export interface Imposto {
+export interface CteImposto {
 /**
  * Informações do ICMS
  */
-    ICMS?: ICMS;
+    ICMS?: CteICMS;
 /**
  * Valor total dos tributos federais e estaduais, aproximado conforme Lei 12.741/12.
  */
@@ -166,7 +166,7 @@ export interface TributoFederal {
     ValorCsll?: number;
 }
 
-export interface ICMS {
+export interface CteICMS {
 /**
  * Código de Situação Tributária (CST) do ICMS. (Ex: 00, 20, 40, 41, 51, 60, 90, etc.)
  * Para empresas do Simples Nacional, é usando o 90 automáticamente.
@@ -247,10 +247,10 @@ export interface ModalCTe {
  * 6 - Multimodal
  */
     Tipo?: number;
-    Rodoviario?: Rodoviario;
+    Rodoviario?: CteRodoviario;
 }
 
-export interface Rodoviario {
+export interface CteRodoviario {
 /**
  * Data prevista da entrega da carga
  */
@@ -276,7 +276,7 @@ export interface Rodoviario {
 /**
  * Lista de veículos tracionadores usados no transporte.
  */
-    Veiculos?: Veiculo[];
+    Veiculos?: CteVeiculo[];
 /**
  * Lacres colocados no veículo ou no baú
  */
@@ -298,7 +298,7 @@ export interface Motorista {
     Cpf?: string;
 }
 
-export interface Veiculo {
+export interface CteVeiculo {
 /**
  * Código interno do veículo na transportadora (opcional).
  */
@@ -486,12 +486,12 @@ export interface CTeEnvio {
     Observacao?: string;
     Modal?: ModalCTe;
     Carga?: Carga;
-    Imposto?: Imposto;
-    Servico?: Servico;
-    Tomador?: Tomador;
-    Destinatario?: Participante;
-    Remetente?: Participante;
-    Expedidor?: Participante;
+    Imposto?: CteImposto;
+    Servico?: CteServico;
+    Tomador?: CteTomador;
+    Destinatario?: CteParticipante;
+    Remetente?: CteParticipante;
+    Expedidor?: CteParticipante;
 }
 
 export interface CTeRetorno extends NewError {

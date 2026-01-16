@@ -189,7 +189,7 @@ export interface Escrituracao {
     Quantidade?: number;
     DtEstoqueFinal?: string;
     Produto?: SpedProdutoInfo;
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 }
 
 export interface EscrituracaoCorrecao {
@@ -203,7 +203,7 @@ export interface EscrituracaoCorrecao {
     QuantidadeCorrecaoNegativa?: number;
     QuantidadeCorrecaoPositiva?: number;
     Produto?: SpedProdutoInfo;
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 }
 
 export interface Producao {
@@ -312,7 +312,7 @@ export interface Inventario {
     ValorImpostoRenda?: number;
     DescricaoComplementar?: string;
     Produto?: SpedProdutoInfo;
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 /**
  * Código da conta analítica contábil debitada/creditada
  */
@@ -416,7 +416,7 @@ export interface AjusteApuracaoDocumentos {
     DtEmissao?: string;
     Valor?: number;
     Produto?: SpedProdutoInfo;
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 }
 
 export interface AjusteApuracaoPisCofins {
@@ -755,11 +755,11 @@ export interface SpedOperacaoCartao {
 /**
  * Identificação da instituição que efetuou o pagamento
  */
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 /**
  * Identificação do intermediador da transação
  */
-    Intermediador?: Participante;
+    Intermediador?: SpedParticipante;
 /**
  * Valor total bruto das vendas e/ou prestações de serviços no campo de incidência do ICMS, incluindo operações com imunidade do imposto
  */
@@ -857,10 +857,10 @@ export interface DFeInfo {
  */
     TipoAssinante?: number;
     DFeComplemento?: DFeComplemento;
-    Participante?: Participante;
+    Participante?: SpedParticipante;
 }
 
-export interface Participante extends Pessoa {
+export interface SpedParticipante extends Pessoa {
     CpfCnpj?: string;
     Ie?: string;
     NmParticipante?: string;

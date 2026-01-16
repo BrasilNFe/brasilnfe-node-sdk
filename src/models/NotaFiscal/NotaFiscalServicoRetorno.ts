@@ -52,7 +52,7 @@ export interface NotaFiscalServicoRetornoInfo {
 /**
  * Valores da NFS-e
  */
-    Valores?: Valores;
+    Valores?: RetornoValores;
 /**
  * Informa se a NFS-e encontra-se cancelada
  */
@@ -108,7 +108,7 @@ export interface NotaFiscalServicoRetornoInfo {
     Base64Doc?: string;
 }
 
-export interface Valores {
+export interface RetornoValores {
 /**
  * Base de cálculo
  */
