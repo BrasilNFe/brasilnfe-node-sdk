@@ -1,15 +1,10 @@
 import { BrasilNFeRequest } from '../brasilnferequest';
-import { 
-    SintegraEnvio, FciEnvio, ArqEnerComEnvio, SpedEnvio, 
-    UnificarSpedEnvio, PegarArquivoEnvio, PegarArquivoEventoEnvio, ObterArquivosRangeEnvio 
+import {
+    SintegraEnvio, FciEnvio, ArqEnerComEnvio, SpedEnvio,
+    UnificarSpedEnvio, PegarArquivoEnvio, PegarArquivoEventoEnvio,
+    ObterArquivosRangeEnvio, SintegraRetorno, FciRetorno,
+    ArqEnerComRetorno, SpedRetorno, ObterArquivosRangeRetorno
 } from '../models';
-
-// Tipos de retorno placeholders
-type SintegraRetorno = any;
-type FciRetorno = any;
-type ArqEnerComRetorno = any;
-type SpedRetorno = any;
-type ObterArquivosRangeRetorno = any;
 
 export class Arquivos extends BrasilNFeRequest {
 

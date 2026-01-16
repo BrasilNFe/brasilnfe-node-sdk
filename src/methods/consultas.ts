@@ -1,13 +1,10 @@
 import { BrasilNFeRequest } from '../brasilnferequest';
-import { StatusSefazEnvio, Produto, PreVisualizarNotaFiscalEnvio, BuscarNotaFiscalServicoEnvio, BuscarNotaFiscalEnvio, ConsultarCadastroEnvio } from '../models';
-
-type StatusSefazRetorno = any;
-type CalculoImpostosRetorno = any;
-type PreVisualizarNotaFiscalRetorno = any;
-type NotaFiscalServicoRetorno = any;
-type BuscarNotaFiscalRetorno = any;
-type ConsultarCadastroRetorno = any;
-type SpedRetorno = any;
+import {
+    StatusSefazEnvio, Produto, PreVisualizarNotaFiscalEnvio, BuscarNotaFiscalServicoEnvio,
+    BuscarNotaFiscalEnvio, ConsultarCadastroEnvio, StatusSefazRetorno, CalculoImpostosRetorno,
+    PreVisualizarNotaFiscalRetorno, NotaFiscalServicoRetorno, BuscarNotaFiscalRetorno,
+    ConsultarCadastroRetorno, SpedRetorno
+} from '../models';
 
 export class Consultas extends BrasilNFeRequest {
     constructor(token: string, url: string) { super(token, url); }

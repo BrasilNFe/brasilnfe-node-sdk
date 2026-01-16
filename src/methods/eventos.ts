@@ -1,7 +1,8 @@
 import { BrasilNFeRequest } from '../brasilnferequest';
-import { CancelarNotaFiscalEnvio, CartaCorrecaoEnvio, InutilizarNumeracaoEnvio, ManifestarNotaFiscalEnvio, EncerrarManifestoTransporteEnvio } from '../models';
-
-type EventoNotaFiscalRetorno = any;
+import {
+    CancelarNotaFiscalEnvio, CartaCorrecaoEnvio, InutilizarNumeracaoEnvio,
+    ManifestarNotaFiscalEnvio, EncerrarManifestoTransporteEnvio, EventoNotaFiscalRetorno
+} from '../models';
 
 export class Eventos extends BrasilNFeRequest {
     constructor(token: string, url: string) { super(token, url); }

@@ -1,13 +1,9 @@
 import { BrasilNFeRequest } from '../brasilnferequest';
 import { 
     NotaFiscalEnvio, NotaFiscalServicoEnvio, ManifestoTransporteEnvio, 
-    NFEnerComEnvio, NotaFiscalComplementarEnvio 
+    NFEnerComEnvio, NotaFiscalComplementarEnvio, NotaFiscalRetorno,
+    NotaFiscalServicoRetorno, ManifestoTransporteRetorno, NFEnerComRetorno
 } from '../models';
-
-type NotaFiscalRetorno = any;
-type NotaFiscalServicoRetorno = any;
-type ManifestoTransporteRetorno = any;
-type NFEnerComRetorno = any;
 
 export class NotaFiscal extends BrasilNFeRequest {
 
