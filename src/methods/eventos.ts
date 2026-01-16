@@ -8,7 +8,7 @@ export class Eventos extends BrasilNFeRequest {
     constructor(token: string, url: string) { super(token, url); }
 
     public async cancelarNotaFiscal(envio: CancelarNotaFiscalEnvio): Promise<EventoNotaFiscalRetorno> {
-        return this.request<EventoNotaFiscalRetorno, CancelarNotaFiscalEnvio>(envio, "CancelNF");
+        return this.request<EventoNotaFiscalRetorno, CancelarNotaFiscalEnvio>(envio, "CancelarNotaFiscal");
     }
     public async enviarCartaCorrecao(envio: CartaCorrecaoEnvio): Promise<EventoNotaFiscalRetorno> {
         return this.request<EventoNotaFiscalRetorno, CartaCorrecaoEnvio>(envio, "EnviarCartaCorrecao");

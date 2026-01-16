@@ -9,8 +9,8 @@ import {
 export class Consultas extends BrasilNFeRequest {
     constructor(token: string, url: string) { super(token, url); }
 
-    public async statusSefaz(envio: StatusSefazEnvio): Promise<StatusSefazRetorno> {
-        return this.request<StatusSefazRetorno, StatusSefazEnvio>(envio, "StatusSefaz");
+    public async consultarStatusSefaz(envio: StatusSefazEnvio): Promise<StatusSefazRetorno> {
+        return this.request<StatusSefazRetorno, StatusSefazEnvio>(envio, "ConsultarStatusSefaz");
     }
     public async calcularImpostos(produtos: Produto[]): Promise<CalculoImpostosRetorno> {
         return this.request<CalculoImpostosRetorno, Produto[]>(produtos, "CalcularImpostos");
@@ -21,13 +21,13 @@ export class Consultas extends BrasilNFeRequest {
     public async buscarNotaFiscalServico(envio: BuscarNotaFiscalServicoEnvio): Promise<NotaFiscalServicoRetorno> {
         return this.request<NotaFiscalServicoRetorno, BuscarNotaFiscalServicoEnvio>(envio, "BuscarNotaFiscalServico");
     }
-    public async buscarNotaFiscal(envio: BuscarNotaFiscalEnvio): Promise<BuscarNotaFiscalRetorno> {
-        return this.request<BuscarNotaFiscalRetorno, BuscarNotaFiscalEnvio>(envio, "BuscarNotaFiscal");
+    public async obterNotasFiscais(envio: BuscarNotaFiscalEnvio): Promise<BuscarNotaFiscalRetorno> {
+        return this.request<BuscarNotaFiscalRetorno, BuscarNotaFiscalEnvio>(envio, "ObterNotasFiscais");
     }
     public async consultarCadastroSefaz(envio: ConsultarCadastroEnvio): Promise<ConsultarCadastroRetorno> {
         return this.request<ConsultarCadastroRetorno, ConsultarCadastroEnvio>(envio, "ConsultarCadastroSefaz");
     }
-    public async buscarArquivoSped(codigo: string): Promise<SpedRetorno> {
-        return this.request<SpedRetorno, string>(codigo, `BuscarArquivoSped/?codigo=${codigo}`);
+    public async obterArquivoSped(codigo: string): Promise<SpedRetorno> {
+        return this.request<SpedRetorno, string>(codigo, `ObterArquivoSped/?codigo=${codigo}`);
     }
 }
