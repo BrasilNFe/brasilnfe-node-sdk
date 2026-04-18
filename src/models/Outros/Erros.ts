@@ -6,6 +6,7 @@ export interface Erros {
 export interface NewError {
     erros?: ErrorInfo[];
     avisos?: string[];
+    status?: number;
 }
 
 export interface ErrorInfo {

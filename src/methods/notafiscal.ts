@@ -1,8 +1,9 @@
 import { BrasilNFeRequest } from '../brasilnferequest';
-import { 
-    NotaFiscalEnvio, NotaFiscalServicoEnvio, ManifestoTransporteEnvio, 
-    NFEnerComEnvio, NotaFiscalComplementarEnvio, NotaFiscalRetorno,
-    NotaFiscalServicoRetorno, ManifestoTransporteRetorno, NFEnerComRetorno
+import {
+    NotaFiscalEnvio, NotaFiscalLoteEnvio, NotaFiscalServicoEnvio, ManifestoTransporteEnvio,
+    NFEnerComEnvio, NotaFiscalComplementarEnvio, CTeEnvio, DCeEnvio,
+    NotaFiscalRetorno, NotaFiscalServicoRetorno, ManifestoTransporteRetorno,
+    NFEnerComRetorno, CTeRetorno, DCeRetorno
 } from '../models';
 
 export class NotaFiscal extends BrasilNFeRequest {
@@ -13,6 +14,10 @@ export class NotaFiscal extends BrasilNFeRequest {
 
     public async enviarNotaFiscal(notaFiscal: NotaFiscalEnvio, crt?: number): Promise<NotaFiscalRetorno> {
         return this.request<NotaFiscalRetorno, NotaFiscalEnvio>(notaFiscal, "EnviarNotaFiscal");
+    }
+
+    public async enviarNotaFiscalLote(notaFiscalLote: NotaFiscalLoteEnvio, crt?: number): Promise<NotaFiscalRetorno> {
+        return this.request<NotaFiscalRetorno, NotaFiscalLoteEnvio>(notaFiscalLote, "EnviarNotaFiscalLote");
     }
 
     public async enviarNotaFiscalServico(notaFiscal: NotaFiscalServicoEnvio): Promise<NotaFiscalServicoRetorno> {
@@ -29,5 +34,13 @@ export class NotaFiscal extends BrasilNFeRequest {
 
     public async enviarNotaFiscalComplementar(notaFiscal: NotaFiscalComplementarEnvio): Promise<NotaFiscalRetorno> {
         return this.request<NotaFiscalRetorno, NotaFiscalComplementarEnvio>(notaFiscal, "EnviarNotaFiscalComplementar");
+    }
+
+    public async enviarConhecimentoTransporte(cteEnvio: CTeEnvio): Promise<CTeRetorno> {
+        return this.request<CTeRetorno, CTeEnvio>(cteEnvio, "EnviarConhecimentoTransporte");
+    }
+
+    public async enviarDeclaracaoConteudo(dceEnvio: DCeEnvio): Promise<DCeRetorno> {
+        return this.request<DCeRetorno, DCeEnvio>(dceEnvio, "EnviarDeclaracaoConteudo");
     }
 }

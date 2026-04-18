@@ -46,6 +46,10 @@ export interface Produto {
  */
     Quantidade?: number;
 /**
+ * Quantidade Comercial do produto tributável, alterado para aceitar de 0 a 4 casas decimais e 11 inteiros.
+ */
+    QuantidadeTributavel?: number;
+/**
  * Unidade comercial (Unidade de Medida)
  */
     UnidadeComercial?: string;
@@ -61,6 +65,10 @@ export interface Produto {
  * Valor Unitario
  */
     ValorUnitario?: number;
+/**
+ * Valor Unitario Tributável
+ */
+    ValorUnitarioTributavel?: number;
 /**
  * Valor Total Bruto
  */
@@ -115,11 +123,41 @@ export interface Produto {
     OrigemProduto?: number;
 /**
  * Código do grupo tributário cadastrado no Painel, para automação de impostos
+ */
+    CodTributação?: string;
+/**
  * ICMS, IPI, PIS, COFINS
  */
     Imposto?: Imposto;
     Combustivel?: Combustivel;
     DeclaracaoImportacao?: DeclaracaoImportacao;
+/**
+ * Rastreabilidade do produto (lote, validade, fabricação). Comum para medicamentos, agrotóxicos, bebidas.
+ */
+    Rastros?: Rastreabilidade[];
+}
+
+export interface Rastreabilidade {
+/**
+ * Número do lote do produto (1-20 caracteres)
+ */
+    NumeroLote?: string;
+/**
+ * Quantidade de produto no lote
+ */
+    QuantidadeLote?: number;
+/**
+ * Data de fabricação/produção
+ */
+    DataFabricacao?: string;
+/**
+ * Data de validade
+ */
+    DataValidade?: string;
+/**
+ * Código de agregação (opcional)
+ */
+    CodigoAgregacao?: string;
 }
 
 export interface Imposto {
@@ -580,6 +618,41 @@ export interface NotaFiscalEnvio {
     Transporte?: Transporte;
     Exporta?: Exporta;
     Entrega?: Entrega;
+/**
+ * Retenções federais totais da nota (IRRF, PIS/COFINS/CSLL retidos, Previdência). Gera a tag retTrib no XML.
+ */
+    Retencoes?: RetencoesFederais;
+}
+
+export interface RetencoesFederais {
+/**
+ * Base de cálculo do IRRF
+ */
+    BaseCalculoIRRF?: number;
+/**
+ * Valor retido do IRRF
+ */
+    ValorIRRF?: number;
+/**
+ * Valor retido de PIS
+ */
+    ValorRetidoPIS?: number;
+/**
+ * Valor retido de COFINS
+ */
+    ValorRetidoCOFINS?: number;
+/**
+ * Valor retido de CSLL
+ */
+    ValorRetidoCSLL?: number;
+/**
+ * Base de cálculo da retenção da Previdência Social
+ */
+    BaseCalculoRetencaoPrevidencia?: number;
+/**
+ * Valor da retenção da Previdência Social
+ */
+    ValorRetencaoPrevidencia?: number;
 }
 
 export interface NotaFiscalLoteEnvio {

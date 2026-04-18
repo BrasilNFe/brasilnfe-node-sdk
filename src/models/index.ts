@@ -41,6 +41,7 @@ export * from './Eventos/EventoNotaFiscalRetorno';
 // Nota Fiscal
 export * from './NotaFiscal/ArqEnerComEnvio';
 export * from './NotaFiscal/CTeEnvio';
+export * from './NotaFiscal/DCeEnvio';
 export * from './NotaFiscal/GnreEnvio';
 export * from './NotaFiscal/InutilizarNumeracaoEnvio';
 export * from './NotaFiscal/ManifestarNotaFiscalEnvio';
