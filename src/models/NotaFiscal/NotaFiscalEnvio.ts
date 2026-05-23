@@ -122,9 +122,11 @@ export interface Produto {
  */
     OrigemProduto?: number;
 /**
- * Código do grupo tributário cadastrado no Painel, para automação de impostos
+ * Código do grupo tributário cadastrado no Painel, para automação de impostos.
+ * QUANDO INFORMADO: o sistema aplica automaticamente CFOP, CST, ICMS, IPI, PIS e COFINS
+ * do grupo — você NÃO precisa preencher o bloco Imposto nem o CFOP do item.
  */
-    CodTributação?: string;
+    CodTributacao?: string;
 /**
  * ICMS, IPI, PIS, COFINS
  */
@@ -135,6 +137,61 @@ export interface Produto {
  * Rastreabilidade do produto (lote, validade, fabricação). Comum para medicamentos, agrotóxicos, bebidas.
  */
     Rastros?: Rastreabilidade[];
+/**
+ * Informações de produtos agropecuários e florestais (NT 2024.003 - Grupo ZF).
+ * Obrigatório a partir de 01/03/2026 quando o NCM cair em 01XXXXXX / 0301XXXX
+ * (animais vivos - GuiaTransito), 06-12XXXX (vegetais primários), 3808.52 a
+ * 3808.99 (defensivos). Já obrigatório em BA, GO, MA, MT para NCM 0102XXXX.
+ */
+    Agropecuaria?: Agropecuaria;
+}
+
+export interface Agropecuaria {
+/**
+ * Defensivos agrícolas aplicados (0 a 20). Cada item exige NumeroReceituario e CpfResponsavelTecnico.
+ */
+    Defensivos?: Defensivo[];
+/**
+ * Guia de trânsito que autoriza o transporte sanitário do animal, vegetal ou produto florestal.
+ */
+    GuiaTransito?: GuiaTransito;
+}
+
+export interface Defensivo {
+/**
+ * Número da receita ou receituário do agrotóxico/defensivo agrícola (1-30 caracteres). Obrigatório.
+ */
+    NumeroReceituario?: string;
+/**
+ * CPF (11 dígitos) do engenheiro agrônomo, florestal ou técnico agrícola responsável. Obrigatório.
+ */
+    CpfResponsavelTecnico?: string;
+}
+
+export interface GuiaTransito {
+/**
+ * Tipo da guia de trânsito. Obrigatório.
+ * 1 - GTA (Guia de Trânsito Animal)
+ * 2 - TTA (Termo de Trânsito Animal)
+ * 3 - DTA (Documento de Transferência Animal)
+ * 4 - ATV (Autorização de Trânsito Vegetal)
+ * 5 - PTV (Permissão de Trânsito Vegetal)
+ * 6 - GTV (Guia de Trânsito Vegetal)
+ * 7 - Guia Florestal (DOF, SisFlora-PA/MT, SIAM-MG)
+ */
+    TipoGuia?: number;
+/**
+ * Sigla da UF emissora da guia (2 caracteres). Obrigatório.
+ */
+    UfGuia?: string;
+/**
+ * Série da guia (1-9 dígitos). Opcional.
+ */
+    SerieGuia?: string;
+/**
+ * Número da guia (1-9 dígitos). Obrigatório.
+ */
+    NumeroGuia?: string;
 }
 
 export interface Rastreabilidade {

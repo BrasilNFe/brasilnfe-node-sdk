@@ -38,7 +38,7 @@ export interface ManifestoTransporteEnvio {
  */
     peso?: number;
     Rodoviario?: Rodoviario;
-    Aerio?: Aerio;
+    Aereo?: Aereo;
     Aquaviario?: Aquaviario;
     Ferroviario?: Ferroviario;
     seguros?: Seguro[];
@@ -47,12 +47,12 @@ export interface ManifestoTransporteEnvio {
     percursoUfs?: string[];
 }
 
-export interface Aerio {
+export interface Aereo {
     nacionalidade?: string;
     matricula?: string;
     numeroVoo?: string;
-    arodromoEmbarque?: string;
-    arodromoDestino?: string;
+    aerodromoEmbarque?: string;
+    aerodromoDestino?: string;
     dataVoo?: string;
 }
 
@@ -118,7 +118,13 @@ export interface Rodoviario {
  * Tara em KG
  */
     tara?: number;
+    CIOT?: CIOT;
     condutores?: Condutor[];
+}
+
+export interface CIOT {
+    codigo?: string;
+    cnpj?: string;
 }
 
 export interface Condutor {
@@ -153,5 +159,13 @@ export interface Seguro {
     cpfCnpjResponsavel?: string;
     cnpjSegurador?: string;
     nomeSegurador?: string;
+/**
+ * Número da apólice de seguro. Obrigatório para modal rodoviário no MDF-e versão 3.00.
+ */
+    numeroApolice?: string;
+/**
+ * Lista de números de averbação do seguro (0..N). Opcional.
+ */
+    numerosAverbacao?: string[];
 }
 

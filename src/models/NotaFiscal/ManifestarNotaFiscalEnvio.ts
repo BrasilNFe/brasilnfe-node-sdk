@@ -14,6 +14,11 @@ export interface ManifestarNotaFiscalEnvio {
  * 4 - Operacao não Realizada
  */
     TipoManifestacao?: number;
+/**
+ * Justificativa. OBRIGATÓRIA quando TipoManifestacao = 4 (mínimo 15 caracteres).
+ * Para outros tipos pode omitir.
+ */
+    Justificativa?: string;
     NumeroSequencial?: number;
 }
 

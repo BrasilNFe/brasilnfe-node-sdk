@@ -1,4 +1,4 @@
-import { Erros } from '../Outros/Erros';
+import { Erros, NewError } from '../Outros/Erros';
 
 export interface NotaFiscalRetorno extends Erros {
     ReturnNF?: RetornoInfo;
@@ -33,7 +33,46 @@ export interface NotaFiscalLoteListRetorno {
     IdentificadorInterno?: string;
 }
 
-export interface NotaFiscalLoteRetorno extends Erros {
+/**
+ * Payload de consulta de status de um lote de NF-e/NFC-e (/ConsultarLoteNFe).
+ */
+export interface ConsultarLoteNFeEnvio {
+/**
+ * Código do lote retornado por /EnviarNotaFiscalLote.
+ */
+    CodLote?: string;
+}
+
+export interface NotaFiscalLoteRetorno extends NewError {
+/**
+ * Código do lote no Brasil NFe (use em /ConsultarLoteNFe).
+ */
+    CodLote?: string;
+/**
+ * Status do lote.
+ * 1 - Aguardando salvar
+ * 2 - Aguardando transmissão SEFAZ
+ * 3 - Aguardando finalização
+ * 4 - Lote finalizado
+ * 5 - Lote finalizado com erro
+ */
+    StatusLote?: number;
+/**
+ * Descrição do status do lote.
+ */
+    DsStatusLote?: string;
+/**
+ * Quantidade total de notas no lote.
+ */
+    QtdTotal?: number;
+/**
+ * Quantidade de notas autorizadas pela SEFAZ.
+ */
+    QtdEmitida?: number;
+/**
+ * Quantidade de notas que falharam.
+ */
+    QtdErro?: number;
     Notas?: NotaFiscalLoteListRetorno[];
 }
 

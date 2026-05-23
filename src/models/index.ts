@@ -29,6 +29,7 @@ export * from './Empresa/CertificadoEnvio';
 export * from './Empresa/CertificadoRetorno';
 export * from './Empresa/EmpresaEnvio';
 export * from './Empresa/EmpresaRetorno';
+export * from './Empresa/Numeracao';
 export * from './Empresa/PegarConfiguracoesRetorno';
 
 // Eventos

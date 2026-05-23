@@ -34,7 +34,6 @@ SDK oficial em **Node.js / TypeScript** para integração com a API da **[Brasil
   - [14. Gerar SPED e Sintegra](#14-gerar-sped-e-sintegra)
   - [15. Gestão de empresas e certificados](#15-gestão-de-empresas-e-certificados)
 - [Referência de Métodos](#referência-de-métodos)
-- [Compatibilidade retroativa](#compatibilidade-retroativa)
 - [Tratamento de Erros](#tratamento-de-erros)
 - [Tabelas de Referência](#tabelas-de-referência)
 - [Ambientes](#ambientes)
@@ -171,7 +170,7 @@ const req: StatusSefazEnvio = {
     TipoAmbiente: 2, // homologação
 };
 
-const resp = await bnfe.consultas.statusSefaz(req);
+const resp = await bnfe.consultas.consultarStatusSefaz(req);
 console.log(resp.StatusSefaz?.DsStatusRespostaSefaz ?? 'indisponível');
 ```
 
@@ -465,7 +464,7 @@ await bnfe.eventos.manifestarNotaFiscal(evt);
 import { StatusSefazEnvio } from 'brasilnfe';
 
 const req: StatusSefazEnvio = { TipoAmbiente: 2, ModeloDocumento: 55 };
-const resp = await bnfe.consultas.statusSefaz(req);
+const resp = await bnfe.consultas.consultarStatusSefaz(req);
 console.log(resp.StatusSefaz?.DsStatusRespostaSefaz);
 ```
 
@@ -480,7 +479,7 @@ const busca: BuscarNotaFiscalEnvio = {
     DtFim:    '2026-04-18T23:59:59',
 };
 
-const resp = await bnfe.consultas.buscarNotaFiscal(busca);
+const resp = await bnfe.consultas.obterNotasFiscais(busca);
 ```
 
 ### 13. Baixar XML / DANFE
@@ -495,7 +494,7 @@ const req: PegarArquivoEnvio = {
     TipoDocumentoFiscal: 1,      // 0 = Entrada, 1 = Saída
 };
 
-const buffer = await bnfe.arquivos.pegarArquivo(req); // já vem decodificado de base64
+const buffer = await bnfe.arquivos.obterArquivoNotaFiscal(req); // já vem decodificado de base64
 writeFileSync('danfe.pdf', buffer);
 ```
 
@@ -505,10 +504,10 @@ writeFileSync('danfe.pdf', buffer);
 import { SpedEnvio, SintegraEnvio } from 'brasilnfe';
 
 const sped: SpedEnvio = { /* período, tipo, finalidade… */ };
-const respSped = await bnfe.arquivos.obterArquivoSped(sped);
+const respSped = await bnfe.arquivos.gerarArquivoSped(sped);
 
 const sintegra: SintegraEnvio = { /* … */ };
-const respSintegra = await bnfe.arquivos.obterArquivoSintegra(sintegra);
+const respSintegra = await bnfe.arquivos.gerarArquivoSintegra(sintegra);
 ```
 
 ### 15. Gestão de empresas e certificados
@@ -560,7 +559,6 @@ const empresas = await bnfe.empresa.buscarTodasEmpresas();
 | Método | Endpoint | Payload | Retorno |
 |--------|----------|---------|---------|
 | `cancelarNotaFiscal` | `CancelarNotaFiscal` | `CancelarNotaFiscalEnvio` | `EventoNotaFiscalRetorno` |
-| `cancelarNF` | `CancelNF` | `CancelarNotaFiscalEnvio` | `EventoNotaFiscalRetorno` |
 | `enviarCartaCorrecao` | `EnviarCartaCorrecao` | `CartaCorrecaoEnvio` | `EventoNotaFiscalRetorno` |
 | `inutilizarNumeracao` | `InutilizarNumeracao` | `InutilizarNumeracaoEnvio` | `EventoNotaFiscalRetorno` |
 | `manifestarNotaFiscal` | `ManifestarNotaFiscal` | `ManifestarNotaFiscalEnvio` | `EventoNotaFiscalRetorno` |
@@ -570,27 +568,28 @@ const empresas = await bnfe.empresa.buscarTodasEmpresas();
 
 | Método | Endpoint | Payload | Retorno |
 |--------|----------|---------|---------|
-| `statusSefaz` | `StatusSefaz` | `StatusSefazEnvio` | `StatusSefazRetorno` |
+| `consultarStatusSefaz` | `ConsultarStatusSefaz` | `StatusSefazEnvio` | `StatusSefazRetorno` |
 | `calcularImpostos` | `CalcularImpostos` | `Produto[]` | `CalculoImpostosRetorno` |
 | `preVisualizarNotaFiscal` | `PreVisualizarNotaFiscal` | `PreVisualizarNotaFiscalEnvio` | `PreVisualizarNotaFiscalRetorno` |
-| `buscarNotaFiscal` | `BuscarNotaFiscal` | `BuscarNotaFiscalEnvio` | `BuscarNotaFiscalRetorno` |
 | `buscarNotaFiscalServico` | `BuscarNotaFiscalServico` | `BuscarNotaFiscalServicoEnvio` | `NotaFiscalServicoRetorno` |
+| `obterNotasFiscais` | `ObterNotasFiscais` | `BuscarNotaFiscalEnvio` | `BuscarNotaFiscalRetorno` |
 | `consultarCadastroSefaz` | `ConsultarCadastroSefaz` | `ConsultarCadastroEnvio` | `ConsultarCadastroRetorno` |
-| `buscarArquivoSped` | `BuscarArquivoSped/?codigo=` | `string` (código) | `SpedRetorno` |
+| `obterArquivoSped` | `ObterArquivoSped/?codigo=` | `string` (código) | `SpedRetorno` |
+| `consultarLoteNFe` | `ConsultarLoteNFe` | `ConsultarLoteNFeEnvio` | `NotaFiscalLoteRetorno` |
 
 ### `arquivos`
 
 | Método | Endpoint | Payload | Retorno |
 |--------|----------|---------|---------|
-| `obterArquivoSintegra` | `ObterArquivoSintegra` | `SintegraEnvio` | `SintegraRetorno` |
-| `obterArquivoFci` | `ObterArquivoFci` | `FciEnvio` | `FciRetorno` |
+| `gerarArquivoSintegra` | `GerarArquivoSintegra` | `SintegraEnvio` | `SintegraRetorno` |
+| `gerarArquivoFci` | `GerarArquivoFci` | `FciEnvio` | `FciRetorno` |
 | `obterArqEnerCom` | `ObterArquivoNFEnerCom` | `ArqEnerComEnvio` | `ArqEnerComRetorno` |
-| `obterArquivoSped` | `ObterArquivoSped` | `SpedEnvio` | `SpedRetorno` |
-| `obterArquivoSpedUnificado` | `ObterArquivoSpedUnificado` | `UnificarSpedEnvio` | `SpedRetorno` |
+| `gerarArquivoSped` | `GerarArquivoSped` | `SpedEnvio` | `SpedRetorno` |
+| `unificarArquivoSped` | `UnificarArquivoSped` | `UnificarSpedEnvio` | `SpedRetorno` |
 | `recriarArquivoSped` | `RecriarArquivoSped/?codigo=` | `string` (código) | `SpedRetorno` |
-| `pegarArquivo` | `GetFile` | `PegarArquivoEnvio` | `Buffer` |
-| `pegarArquivoEvento` | `GetFileFromEvent` | `PegarArquivoEventoEnvio` | `Buffer` |
-| `obterArquivosPorRange` | `ObterArquivosPorRange` | `ObterArquivosRangeEnvio` | `ObterArquivosRangeRetorno` |
+| `obterArquivoNotaFiscal` | `ObterArquivoNotaFiscal` | `PegarArquivoEnvio` | `Buffer` |
+| `obterArquivoEvento` | `ObterArquivoEvento` | `PegarArquivoEventoEnvio` | `Buffer` |
+| `obterArquivosPorPeriodo` | `ObterArquivosPorPeriodo` | `ObterArquivosRangeEnvio` | `ObterArquivosRangeRetorno` |
 
 ### `empresa`
 
@@ -600,27 +599,12 @@ const empresas = await bnfe.empresa.buscarTodasEmpresas();
 | `verificarCertificado` | `VerifyCertificate` | `CertificadoEnvio` | `CertificadoRetorno` |
 | `adicionarEmpresa` | `AdicionarEmpresa` | `EmpresaEnvio` | `EmpresaRetorno` |
 | `editarEmpresa` | `EditarEmpresa` | `EmpresaEnvio` | `EmpresaRetorno` |
+| `deletarEmpresa` | `DeletarEmpresa` | — | `EmpresaRetorno` |
 | `buscarEmpresa` | `BuscarEmpresa` | — | `EmpresaEnvio` |
 | `buscarTodasEmpresas` | `BuscarTodasEmpresas` | — | `EmpresaEnvio[]` |
-
-## Compatibilidade retroativa
-
-Versões anteriores do SDK Node usavam nomes de métodos e endpoints ligeiramente diferentes do SDK principal (C#/PHP). Esses nomes **continuam funcionando** como aliases, para não quebrar código existente:
-
-| Método legado | Endpoint legado | Método recomendado |
-|---------------|-----------------|--------------------|
-| `consultas.consultarStatusSefaz` | `ConsultarStatusSefaz` | `consultas.statusSefaz` |
-| `consultas.obterNotasFiscais` | `ObterNotasFiscais` | `consultas.buscarNotaFiscal` |
-| `consultas.obterArquivoSped` | `ObterArquivoSped/?codigo=` | `consultas.buscarArquivoSped` |
-| `arquivos.gerarArquivoSintegra` | `GerarArquivoSintegra` | `arquivos.obterArquivoSintegra` |
-| `arquivos.gerarArquivoFci` | `GerarArquivoFci` | `arquivos.obterArquivoFci` |
-| `arquivos.gerarArquivoSped` | `GerarArquivoSped` | `arquivos.obterArquivoSped` |
-| `arquivos.unificarArquivoSped` | `UnificarArquivoSped` | `arquivos.obterArquivoSpedUnificado` |
-| `arquivos.obterArquivoNotaFiscal` | `ObterArquivoNotaFiscal` | `arquivos.pegarArquivo` |
-| `arquivos.obterArquivoEvento` | `ObterArquivoEvento` | `arquivos.pegarArquivoEvento` |
-| `arquivos.obterArquivosPorPeriodo` | `ObterArquivosPorPeriodo` | `arquivos.obterArquivosPorRange` |
-
-Para novos projetos, prefira sempre os métodos da tabela de [Referência de Métodos](#referência-de-métodos).
+| `gerarLinkAtivacao` | `GerarLinkAtivacao` | — | `string` (URL Fintely) |
+| `consultarNumeracao` | `ConsultarNumeracao` | — | `ConsultarNumeracaoRetorno` |
+| `atualizarNumeracao` | `AtualizarNumeracao` | `Numeracao` | `AtualizarNumeracaoRetorno` |
 
 ## Tratamento de Erros
 

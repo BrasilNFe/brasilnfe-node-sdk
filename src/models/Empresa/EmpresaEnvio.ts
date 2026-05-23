@@ -6,6 +6,12 @@ export interface EmpresaEnvio {
  */
     CNPJ?: string;
 /**
+ * Código de identificação da empresa no sistema do integrador.
+ * Campo opcional e livre, usado pelo integrador para correlacionar a empresa
+ * do Brasil NFe com o cadastro interno do próprio ERP/sistema.
+ */
+    CodigoInterno?: string;
+/**
  * Nome Fantasia
  */
     NmFantasia?: string;
@@ -13,11 +19,6 @@ export interface EmpresaEnvio {
  * Razão Social
  */
     RzSocial?: string;
-/**
- * Tipo da empresa
- * 1 - Matriz
- */
-    TipoEmpresa?: number;
 /**
  * Inscrição Estadual
  */
@@ -34,17 +35,9 @@ export interface EmpresaEnvio {
  */
     CRT?: number;
 /**
- * CNPJ
+ * CNAE
  */
     CNAE?: string;
-/**
- * Identificado do código de segurança do contribuinte (NFC-e)
- */
-    IdentificadorCSC?: string;
-/**
- * Código de segurança do contribuinte (NFC-e)
- */
-    CodigoCSC?: string;
 /**
  * Token Brasil NFe (Sómente para consulta)
  */
@@ -73,7 +66,11 @@ export interface EmpresaEnvio {
 
 export interface Configuracao {
 /**
- * Informações de NFe
+ * Informações de NFS-e
+ */
+    NFSe?: NFSe;
+/**
+ * Informações de NF-e
  */
     NFe?: NFe;
 /**
@@ -81,22 +78,48 @@ export interface Configuracao {
  */
     NFCe?: NFCe;
 /**
- * Informações de NFS-e
+ * Informações da empresa como transportador, comuns aos documentos de
+ * transporte (CT-e e MDF-e).
  */
-    NFSe?: NFSe;
+    Transportador?: Transportador;
+}
+
+export interface Transportador {
 /**
- * Informações de Serviços
+ * Registro Nacional de Transportadores Rodoviários de Cargas (RNTRC) da ANTT.
+ * Obrigatório para emissão de CT-e (modelo 57) e MDF-e (modelo 58) quando o
+ * emitente atua como transportador rodoviário.
  */
-    Servicos?: Servicos;
+    RNTRC?: string;
+}
+
+export interface NFCe {
+/**
+ * Identificado do código de segurança do contribuinte (Ambiente de Produção)
+ */
+    IdCSCProducao?: string;
+/**
+ * Código de segurança do contribuinte (Ambiente de Produção)
+ */
+    CSCProducao?: string;
+/**
+ * Identificado do código de segurança do contribuinte (Ambiente de Homologação)
+ */
+    IdCSCHomologacao?: string;
+/**
+ * Código de segurança do contribuinte (Ambiente de Homologação)
+ */
+    CSCHomologacao?: string;
+}
+
+export interface NFe {
+/**
+ * Manifestar ciência da operação automáticamente (Permite buscar notas de entrada)
+ */
+    AutoManifestarCienciaOperacao?: boolean;
 }
 
 export interface NFSe {
-/**
- * Código tipo ambiente emissão NFS-e
- * 1 - Produção
- * 2 - Homologação
- */
-    CodTipoAmbiente?: number;
 /**
  * Token da empresa que possui a procuração para emissão de notas
  */
@@ -113,80 +136,4 @@ export interface NFSe {
  * Cpf do usuário vinculado a empresa (somente municípios que utilizam login/senha para autenticação no webservice)
  */
     CpfWebService?: string;
-/**
- * Controle de série e numeração interno?
- * Verdadeiro - A série e numeração e controlado pelo brasil NFe
- * Falso - A série e númeração e obrigatóriamente enviada pela API
- */
-    ControleNumeracaoInterno?: boolean;
 }
-
-export interface NFe {
-/**
- * Código Tipo Ambiente Emissão NF-e
- * 1 - Produção
- * 2 - Homologação
- */
-    CodTipoAmbiente?: number;
-/**
- * Controle de série e numeração interno?
- * Verdadeiro - A série e numeração e controlado pelo brasil NFe
- * Falso - A série e númeração e obrigatóriamente enviada pela API
- */
-    ControleNumeracaoInterno?: boolean;
-}
-
-export interface NFCe {
-/**
- * Código Tipo Ambiente Emissão NFC-e
- * 1 - Produção
- * 2 - Homologação
- */
-    CodTipoAmbiente?: number;
-/**
- * Controle de série e numeração interno?
- * Verdadeiro - A série e numeração e controlado pelo brasil NFe
- * Falso - A série e númeração e obrigatóriamente enviada pela API
- */
-    ControleNumeracaoInterno?: boolean;
-}
-
-export interface Servicos {
-/**
- * Serviço de MDF-e/CT-e?
- * Verdadeiro - Serviço de emissão de MDF-e/CT-e ativado
- * Falso - Serviço de emissão de MDF-e/CT-e desativado
- */
-    MDFeCTe?: boolean;
-/**
- * Serviço de NFe/NFCe?
- * Verdadeiro - Serviço de emissão de NFe/NFCe ativado
- * Falso - Serviço de emissão de NFe/NFCe desativado
- */
-    NFeNFCe?: boolean;
-/**
- * Serviço de NFSe?
- * Verdadeiro - Serviço de emissão de NFS-e ativado
- * Falso - Serviço de emissão de NFS-e desativado
- */
-    NFSe?: boolean;
-/**
- * Serviço do Sintegra?
- * Verdadeiro - Serviço de emissão de Sped ativado
- * Falso - Serviço de emissão de Sped desativado
- */
-    Sped?: boolean;
-/**
- * Serviço do Sintegra?
- * Verdadeiro - Serviço de emissão de Sintegra ativado
- * Falso - Serviço de emissão de Sintegra desativado
- */
-    Sintegra?: boolean;
-/**
- * Serviço de CF-e SAT?
- * Verdadeiro - Serviço de emissão de CF-e SAT ativado
- * Falso - Serviço de emissão de CF-e SAT desativado
- */
-    CFeSat?: boolean;
-}
-

@@ -121,6 +121,10 @@ export interface Servico {
  */
     CodTributacaoMunicipio?: string;
 /**
+ * Código CNAE (Classificação Nacional de Atividades Econômicas)
+ */
+    CodigoCnae?: string;
+/**
  * Código NBS (Nomenclatura Brasileira de Serviços).
  */
     CodNBS?: string;
@@ -145,12 +149,27 @@ export interface Servico {
     CodMunicipioPrestacao?: string;
     Valores?: Valores;
     ConfiguracaoImposto?: ConfiguracaoImposto;
+/**
+ * Bloco IBS/CBS (Reforma Tributária). Usar quando aplicável para NFS-e.
+ */
+    IBSCBS?: IBSCBSServico;
 }
 
 export interface IntermediarioServico {
     RzSocial?: string;
     CPFCNPJ?: string;
     InscricaoMunicipal?: string;
+}
+
+export interface IBSCBSServico {
+/**
+ * Código de Classificação Tributária (Padrão 000001)
+ */
+    CodClassTrib?: string;
+/**
+ * Código Indicador da Operação
+ */
+    CodIndicadorOperacao?: string;
 }
 
 export interface ConstrucaoCivil {
@@ -162,9 +181,5 @@ export interface Tomador extends Pessoa {
     CpfCnpj?: string;
     NmTomador?: string;
     Im?: string;
-/**
- * NIF (Número de Identificação Fiscal) da pessoa.
- */
-    Nif?: string;
 }
 

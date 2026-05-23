@@ -118,6 +118,7 @@ export interface DCeRetorno extends NewError {
     serie?: number;
     numero?: number;
     chave?: string;
+    protocolo?: string;
     tipoAmbiente?: string;
     base64Xml?: string;
     base64DACE?: string;
