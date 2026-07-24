@@ -234,12 +234,14 @@ const nf: NotaFiscalEnvio = {
 
     Transporte: {
         ModalidadeFrete: 0, // CIF
-        Volume: {
-            QuantidadeVolume: 2,
-            Especie: 'CAIXA',
-            PesoBruto: 5.500,
-            PesoLiquido: 5.000,
-        },
+        Volumes: [
+            {
+                QuantidadeVolume: 2,
+                Especie: 'CAIXA',
+                PesoBruto: 5.500,
+                PesoLiquido: 5.000,
+            },
+        ],
     },
 };
 

@@ -41,5 +41,12 @@ export interface ObterArquivosRangeEnvio {
  * Aplicar plano de ajustes de impostos
  */
     aplicarPlanoAjustes?: boolean;
+/**
+ * Filtra por situação. Vazio = todas (comportamento padrão). Combinável.
+ * 1 - Autorizada
+ * 2 - Cancelada
+ * 3 - Denegada
+ */
+    Situacoes?: number[];
 }
 

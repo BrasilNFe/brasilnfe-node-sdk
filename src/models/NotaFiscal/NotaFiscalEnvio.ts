@@ -98,6 +98,17 @@ export interface Produto {
  */
     xPed?: string;
 /**
+ * Chave de acesso (44 dígitos) da NF-e ORIGINAL que este item está devolvendo. Usado apenas em NF-e de
+ * devolução (Finalidade = 4, Reforma Tributária / NT 2025.002). Quando preenchida, o item é referenciado
+ * pelo grupo DFeReferenciado (por item) em vez do NFReferencia (nível nota) - os dois não podem coexistir.
+ */
+    ChaveAcessoReferenciada?: string;
+/**
+ * Número do item (nItem) na NF-e ORIGINAL a que este item de devolução corresponde. É o número do item na
+ * nota de venda original, NÃO o número do item nesta devolução. Opcional; acompanha ChaveAcessoReferenciada.
+ */
+    NItemReferenciado?: number;
+/**
  * Número de controle da FCI - Ficha de Conteúdo de Importação
  */
     nFCI?: string;
@@ -247,6 +258,22 @@ export interface IBSCBS {
  * Alíquota da CBS
  */
     AliquotaCBS?: number;
+/**
+ * Percentual de redução da alíquota do IBS (pRedAliq de gIBSUF/gIBSMun), usado no grupo gRed dos CST
+ * 011/200/515. Fixo por cClassTrib na tabela oficial (ex.: 100 para 200003 alimentação/Anexo I, 60 para
+ * educação/saúde). Quando null, é preenchido automaticamente pela tabela oficial (TabelaReducaoIbsCbs).
+ */
+    PercentualReducaoIBS?: number;
+/**
+ * Percentual de redução da alíquota da CBS (pRedAliq de gCBS). Pode divergir de PercentualReducaoIBS
+ * (ex.: 200025 = IBS 60 / CBS 100). Quando null, é preenchido automaticamente pela tabela oficial.
+ */
+    PercentualReducaoCBS?: number;
+/**
+ * Percentual de diferimento (pDif do grupo gDif), usado nos CST 510/515. Informado pelo contribuinte -
+ * NÃO é fixo por cClassTrib. O valor diferido (vDif) é deduzido do IBS/CBS devido.
+ */
+    PercentualDiferimento?: number;
 }
 
 export interface ICMS {
@@ -313,6 +340,77 @@ export interface ICMS {
  * 3 - Valor da Operação
  */
     modalidadeBcIcms?: number;
+/**
+ * Grupo de ICMS-ST retido em operação anterior. Preencher SOMENTE em CST 60 ou CSOSN 500
+ * (revenda de mercadoria cujo ICMS-ST já foi retido por substituição tributária).
+ * Quando informado, prevalece sobre a estimativa automática derivada da configuração de ST do produto.
+ */
+    STRetido?: ICMSSTRetido;
+/**
+ * adRemICMSRet - Alíquota ad rem do ICMS retido anteriormente. Obrigatório no CST 61
+ * (tributação monofásica sobre combustíveis cobrada anteriormente).
+ */
+    AliquotaAdRemRetido?: number;
+/**
+ * qBCMonoRet - Quantidade tributada retida anteriormente (em unidade de medida da legislação).
+ * Opcional no CST 61. Quando não informada, assume a quantidade comercial do item.
+ */
+    QuantidadeMonoRetido?: number;
+/**
+ * vICMSMonoRet - Valor do ICMS retido anteriormente no CST 61. Opcional: quando não informado,
+ * é calculado por QuantidadeMonoRetido x AliquotaAdRemRetido.
+ */
+    ValorIcmsMonoRetido?: number;
+}
+
+/**
+ * ICMS retido anteriormente por substituição tributária (grupo do CST 60 / CSOSN 500).
+ * Os valores corretos vêm da nota de ENTRADA do produto. Em operação não consumidor final,
+ * os quatro primeiros campos são exigidos juntos (Rejeição 938, validação a critério da UF).
+ */
+export interface ICMSSTRetido {
+/**
+ * vBCSTRet - Base de cálculo do ICMS-ST retido na operação anterior.
+ */
+    BaseCalculo?: number;
+/**
+ * pST - Alíquota suportada pelo consumidor final (alíquota interna do destino + FCP).
+ */
+    AliquotaConsumidorFinal?: number;
+/**
+ * vICMSSubstituto - Valor do ICMS próprio do substituto cobrado na operação anterior.
+ */
+    ValorICMSSubstituto?: number;
+/**
+ * vICMSSTRet - Valor do ICMS-ST retido na operação anterior. Opcional: quando não informado,
+ * é calculado por (BaseCalculo x AliquotaConsumidorFinal / 100 - ValorICMSSubstituto). Informe
+ * o valor fiel da nota de entrada quando ele divergir da fórmula padrão.
+ */
+    ValorICMSST?: number;
+/**
+ * vBCFCPSTRet - Base de cálculo do FCP retido por ST na operação anterior.
+ */
+    BaseCalculoFCP?: number;
+/**
+ * pFCPSTRet - Alíquota do FCP retido por ST na operação anterior.
+ * O valor (vFCPSTRet) é calculado automaticamente por BaseCalculoFCP x AliquotaFCP / 100.
+ */
+    AliquotaFCP?: number;
+/**
+ * pRedBCEfet - Percentual de redução da base de cálculo efetiva (consumidor final).
+ */
+    PercentualReducaoBaseEfetiva?: number;
+/**
+ * vBCEfet - Base de cálculo efetiva (consumidor final). Opcional: quando não informada, é calculada
+ * por (ValorTotal + frete + seguro + outras despesas - desconto) x (1 - PercentualReducaoBaseEfetiva/100).
+ * Informe o valor fiel quando a composição da base divergir.
+ */
+    BaseCalculoEfetiva?: number;
+/**
+ * pICMSEfet - Alíquota do ICMS efetiva (consumidor final). O valor (vICMSEfet) é calculado
+ * automaticamente por BaseCalculoEfetiva x AliquotaEfetiva / 100.
+ */
+    AliquotaEfetiva?: number;
 }
 
 export interface IPI {
@@ -465,7 +563,6 @@ export interface Transporte {
     Balsa?: string;
     Veiculo?: Veiculo;
     Reboque?: Reboque[];
-    Volume?: Volume;
     Volumes?: Volume[];
 }
 
@@ -578,6 +675,17 @@ export interface DeclaracaoImportacao {
     CodFabricante?: string;
 }
 
+export interface Intermediador {
+/**
+ * CNPJ do intermediador da transação (marketplace/plataforma de terceiros). Obrigatório.
+ */
+    Cnpj?: string;
+/**
+ * Identificação do vendedor no site do intermediador (usuário/login cadastrado). Obrigatório.
+ */
+    IdCadIntTran?: string;
+}
+
 export interface NotaFiscalEnvio {
 /**
  * Série da nota Fiscal
@@ -623,11 +731,12 @@ export interface NotaFiscalEnvio {
  */
     IndicadorPresenca?: number;
 /**
- * Indicador de intermediador/marketplace
- * falso - Operação sem intermediador
- * verdadeiro - Operação em site ou plataforma de terceiros;
+ * Dados do intermediador/marketplace (site ou plataforma de terceiros).
+ * Ausente = operação sem intermediador (indIntermed = 0, grupo omitido).
+ * Preenchido = operação em site/plataforma de terceiros (indIntermed = 1). Exige Cnpj e IdCadIntTran.
+ * Só é válido quando IndicadorPresenca for 2, 3, 4 ou 9.
  */
-    IndicadorIntermediador?: boolean;
+    Intermediador?: Intermediador;
 /**
  * Indica operação com Consumidor final (NFCe de ser 1 Validar!)
  * Falso - Normal;

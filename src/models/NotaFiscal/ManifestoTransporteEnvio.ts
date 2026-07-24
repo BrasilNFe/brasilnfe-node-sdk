@@ -45,6 +45,10 @@ export interface ManifestoTransporteEnvio {
     carregamentos?: Carregamento[];
     descarregamentos?: Descarregamento[];
     percursoUfs?: string[];
+/**
+ * Produto predominante transportado. Opcional.
+ */
+    produtoPredominante?: ProdutoPredominante;
 }
 
 export interface Aereo {
@@ -112,14 +116,114 @@ export interface Rodoviario {
  */
     tipoCarroceria?: number;
     placa?: string;
-    renavan?: string;
+    renavam?: string;
     uf?: string;
 /**
  * Tara em KG
  */
     tara?: number;
+/**
+ * Capacidade em KG do veículo de tração. Opcional.
+ */
+    capKG?: number;
+/**
+ * Capacidade em M3 do veículo de tração. Opcional.
+ */
+    capM3?: number;
     CIOT?: CIOT;
     condutores?: Condutor[];
+/**
+ * Lista de veículos de reboque acoplados à tração. Opcional.
+ */
+    reboques?: VeiculoReboque[];
+}
+
+export interface VeiculoReboque {
+/**
+ * Placa do reboque (sem máscara).
+ */
+    placa?: string;
+    renavam?: string;
+/**
+ * UF de licenciamento do reboque (sigla de 2 letras).
+ */
+    uf?: string;
+/**
+ * Tara em KG
+ */
+    tara?: number;
+    capKG?: number;
+    capM3?: number;
+/**
+ * Tipo de Carroceria
+ * 0 - Não aplicável
+ * 1 - Aberta
+ * 2 - Fechado Baú
+ * 3 - Granelera
+ * 4 - Porta Container
+ * 5 - Sider
+ */
+    tipoCarroceria?: number;
+}
+
+export interface ProdutoPredominante {
+/**
+ * Tipo de Carga (Resolução ANTT 5.849/2019). Valor de 1 a 11.
+ * 1 - Granel sólido
+ * 2 - Granel líquido
+ * 3 - Frigorificada
+ * 4 - Conteinerizada
+ * 5 - Carga Geral
+ * 6 - Neogranel
+ * 7 - Perigosa (granel sólido)
+ * 8 - Perigosa (granel líquido)
+ * 9 - Perigosa (carga frigorificada)
+ * 10 - Perigosa (conteinerizada)
+ * 11 - Perigosa (carga geral)
+ */
+    tpCarga?: number;
+/**
+ * Descrição do produto predominante (1 a 120 caracteres).
+ */
+    descricao?: string;
+/**
+ * GTIN/EAN do produto. Opcional. Use "SEM GTIN" se não houver.
+ */
+    cEan?: string;
+/**
+ * Código NCM do produto. Opcional. Aceita 2 ou 8 dígitos.
+ */
+    ncm?: string;
+/**
+ * Informações de carga lotação. Opcional - só preencha quando o MDF-e for de carga lotação.
+ */
+    infLotacao?: InfoCargaLotacao;
+}
+
+export interface InfoCargaLotacao {
+/**
+ * Local de carregamento da lotação. Informe CEP OU (latitude + longitude).
+ */
+    localCarrega?: LocalLotacao;
+/**
+ * Local de descarregamento da lotação. Informe CEP OU (latitude + longitude).
+ */
+    localDescarrega?: LocalLotacao;
+}
+
+export interface LocalLotacao {
+/**
+ * CEP do local (8 dígitos). Quando informado, latitude/longitude são ignorados.
+ */
+    cep?: string;
+/**
+ * Latitude. Informe junto com longitude quando não houver CEP.
+ */
+    latitude?: string;
+/**
+ * Longitude. Informe junto com latitude quando não houver CEP.
+ */
+    longitude?: string;
 }
 
 export interface CIOT {

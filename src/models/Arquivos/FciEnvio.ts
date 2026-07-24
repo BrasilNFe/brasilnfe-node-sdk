@@ -9,6 +9,11 @@ export interface FciEnvio {
  * Quando verdadeiro retorna erro caso envie produtos com código repetido
  */
     ValidarCodigos?: boolean;
+/**
+ * Quando verdadeiro, além de gerar o arquivo, assina e transmite a mídia via programa TED.
+ * Requer certificado e-CNPJ configurado na empresa.
+ */
+    Transmitir?: boolean;
 }
 
 export interface FciProduto {
@@ -49,5 +54,17 @@ export interface FciProduto {
 export interface FciRetorno extends Erros {
     Status?: boolean;
     Registros?: string;
+/**
+ * Indica se a mídia foi efetivamente enviada ao TED (somente quando Transmitir = true).
+ */
+    Transmitido?: boolean;
+/**
+ * Número do protocolo de recepção retornado pelo TED, quando disponível.
+ */
+    NumeroProtocolo?: string;
+/**
+ * Data da transmissão lida da mídia (dd/MM/yyyy), quando disponível.
+ */
+    DataTransmissao?: string;
 }
 

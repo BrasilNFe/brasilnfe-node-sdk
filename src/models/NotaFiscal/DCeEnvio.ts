@@ -39,6 +39,11 @@ export interface DCeEnvio {
      */
     ModalidadeTransporte?: number;
     /**
+     * CNPJ da transportadora que leva a carga.
+     * Opcional. Quando informado, é usado no XML; quando vazio, mantém o CNPJ da empresa emissora.
+     */
+    CnpjTransportadora?: string;
+    /**
      * URL do site do marketplace (obrigatório quando TipoEmitente=1)
      */
     SiteMarketplace?: string;

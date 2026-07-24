@@ -41,5 +41,18 @@ export interface ConsultarCadastroRetorno extends Pessoa {
  * 1 - Encontrada;
  */
     status?: number;
+/**
+ * Fonte dos dados: "sefaz" (Inscrição Estadual da SEFAZ estadual),
+ * "receita" (fallback na Receita Federal quando a UF não oferece a consulta
+ * ou o contribuinte não tem IE - comum em prestadores de serviço) ou
+ * "indisponivel".
+ */
+    fonte?: string;
+/**
+ * Mensagem explicativa do resultado: por que a IE não veio, qual fonte foi
+ * usada, e o aviso de que vazio NÃO significa CNPJ inativo. Fica vazio quando
+ * a SEFAZ retornou a Inscrição Estadual normalmente.
+ */
+    mensagem?: string;
 }
 

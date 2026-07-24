@@ -36,6 +36,8 @@ export * from './Empresa/PegarConfiguracoesRetorno';
 export * from './Eventos/CancelarNotaFiscalEnvio';
 export * from './Eventos/CartaCorrecaoEnvio';
 export * from './Eventos/DesacordoCTeEnvio';
+export * from './Eventos/EconfEnvio';
+export * from './Eventos/EventoNFeEnvio';
 export * from './Eventos/EncerrarManifestoTransporteEnvio';
 export * from './Eventos/EventoNotaFiscalRetorno';
 

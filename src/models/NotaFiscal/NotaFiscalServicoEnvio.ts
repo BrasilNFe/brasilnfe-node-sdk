@@ -26,7 +26,16 @@ export interface NFSInfo {
 export interface Valores {
     ValorServico?: number;
     ValorInss?: number;
+/**
+ * Alíquota do ISS (%).
+ */
     Aliquota?: number;
+/**
+ * Alíquota do Simples Nacional (%). Preenche o pTotTribSN (percentual total aproximado dos
+ * tributos) da NFS-e nacional - equivale à opção "Informar alíquota do Simples Nacional" do
+ * emissor nacional. Usada por optantes ME/EPP e MEI. Independente de Aliquota (ISS).
+ */
+    AliquotaSimplesNacional?: number;
     DescontoCondicionado?: number;
     DescontoIncondicionado?: number;
     OutrasRetencoes?: number;
@@ -153,6 +162,79 @@ export interface Servico {
  * Bloco IBS/CBS (Reforma Tributária). Usar quando aplicável para NFS-e.
  */
     IBSCBS?: IBSCBSServico;
+/**
+ * Informações de comércio exterior (grupo comExt do leiaute nacional).
+ * Se ExigibilidadeISS = 4 e este objeto não for enviado, valores padrão são aplicados
+ * (modo Transfronteiriço, sem vínculo, sem mecanismo de apoio, moeda USD, valor = ValorServico).
+ */
+    ComercioExterior?: ComercioExterior;
+}
+
+/**
+ * Grupo de informações de comércio exterior (comExt) exigido na exportação de serviço.
+ */
+export interface ComercioExterior {
+/**
+ * Modo de prestação do serviço (mdPrestacao). Padrão 1.
+ * 1 - Transfronteiriço
+ * 2 - Consumo no Brasil
+ * 3 - Presença comercial no exterior
+ * 4 - Movimento temporário de pessoas físicas
+ */
+    ModoPrestacao?: number;
+/**
+ * Vínculo entre prestador e tomador (vincPrest). Padrão 0.
+ * 0 - Sem vínculo
+ * 1 - Controlada
+ * 2 - Controladora
+ * 3 - Coligada
+ * 4 - Matriz
+ * 5 - Filial ou sucursal
+ * 6 - Outro vínculo
+ */
+    VinculoPrestador?: number;
+/**
+ * Código da moeda estrangeira (tpMoeda), ISO 4217 numérico de 3 dígitos. Padrão 840 (USD).
+ * Ex: 840 = Dólar americano, 978 = Euro, 826 = Libra esterlina.
+ */
+    CodMoeda?: number;
+/**
+ * Valor do serviço na moeda estrangeira informada (vServMoeda).
+ * Se não informado, usa o ValorServico (valor em reais) - recomenda-se informar o valor real na moeda.
+ */
+    ValorMoedaEstrangeira?: number;
+/**
+ * Mecanismo de apoio/fomento ao comércio exterior pelo prestador (mecAFComexP). Padrão 1.
+ * 1 - Nenhum
+ * 2 - ACC; 3 - ACE; 4 - BNDES-Exim Pós; 5 - BNDES-Exim Pré; 6 - FGE; 7 - PROEX Equalização; 8 - PROEX Financiamento
+ */
+    ApoioPrestador?: number;
+/**
+ * Mecanismo de apoio/fomento ao comércio exterior pelo tomador (mecAFComexT). Padrão 1.
+ * 1 - Nenhum ... 26 - ZPE (ver leiaute nacional para a lista completa)
+ */
+    ApoioTomador?: number;
+/**
+ * Movimentação temporária de bens (movTempBens). Padrão 1.
+ * 1 - Não
+ * 2 - Vinculada à Declaração de Importação
+ * 3 - Vinculada à Declaração de Exportação
+ */
+    MovimentacaoTemporariaBens?: number;
+/**
+ * Número da Declaração de Importação (nDI). Opcional.
+ */
+    NumeroDI?: string;
+/**
+ * Número do Registro de Exportação (nRE). Opcional.
+ */
+    NumeroRE?: string;
+/**
+ * Compartilhar as informações da NFS-e com o MDIC/Secretaria de Comércio Exterior (mdic). Padrão 0.
+ * 0 - Não enviar
+ * 1 - Enviar
+ */
+    CompartilharMDIC?: number;
 }
 
 export interface IntermediarioServico {
@@ -170,6 +252,30 @@ export interface IBSCBSServico {
  * Código Indicador da Operação
  */
     CodIndicadorOperacao?: string;
+/**
+ * Indica operação de uso ou consumo pessoal (indFinal). 0 - Não (padrão); 1 - Sim.
+ */
+    IndicadorUsoFinal?: number;
+/**
+ * Indicador do destinatário dos serviços (indDest). 0 - destinatário é o próprio tomador (padrão); 1 - destinatário não é o adquirente.
+ */
+    IndicadorDestinatario?: number;
+/**
+ * Alíquota do IBS Estadual (pIBSUF) em %. Se omitido, usa 0,10% (padrão de teste 2025-2026).
+ */
+    AliqIbsUf?: number;
+/**
+ * Alíquota do IBS Municipal (pIBSMun) em %. Se omitido, usa 0% (padrão de teste 2025-2026).
+ */
+    AliqIbsMun?: number;
+/**
+ * Alíquota da CBS (pCBS) em %. Se omitido, usa 0,90% (padrão de teste 2025-2026).
+ */
+    AliqCbs?: number;
+/**
+ * Base de cálculo do IBS/CBS (vBC). Se omitido, usa ValorServico - DescontoIncondicionado.
+ */
+    BaseCalculo?: number;
 }
 
 export interface ConstrucaoCivil {

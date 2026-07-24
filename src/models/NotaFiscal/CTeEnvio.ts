@@ -80,6 +80,42 @@ export interface Documento {
     PIN?: string;
 }
 
+/**
+ * Outros documentos que acompanham a carga, quando não há NF/NF-e (ex.: mudança, C2C).
+ * Mapeia para infDoc/infOutros do CT-e.
+ */
+export interface OutroDocumento {
+/**
+ * Tipo do documento originário. (tpDoc)
+ * 0 - Declaração
+ * 10 - Dutoviário
+ * 59 - CF-e SAT
+ * 65 - NFC-e
+ * 99 - Outros (exige Descricao)
+ */
+    TipoDocumento?: number;
+/**
+ * Descrição do documento. Obrigatória quando TipoDocumento = 99. (descOutros)
+ */
+    Descricao?: string;
+/**
+ * Número do documento. (nDoc)
+ */
+    Numero?: string;
+/**
+ * Data de emissão do documento. (dEmi)
+ */
+    DtEmissao?: string;
+/**
+ * Valor do documento fiscal. (vDocFisc)
+ */
+    Valor?: number;
+/**
+ * Data prevista de entrega. (dPrev)
+ */
+    DtPrevisao?: string;
+}
+
 export interface Carga {
 /**
  * Valor total da carga. (vCarga)
@@ -97,6 +133,10 @@ export interface Carga {
  * Documentos fiscais que acompanham a carga. (infNFe)
  */
     Documentos?: Documento[];
+/**
+ * Outros documentos que acompanham a carga quando não há NF-e (ex.: declaração de mudança, C2C). (infOutros)
+ */
+    OutrosDocumentos?: OutroDocumento[];
 }
 
 export interface DetalheCarga {

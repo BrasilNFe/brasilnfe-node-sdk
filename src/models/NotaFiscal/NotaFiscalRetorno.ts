@@ -10,6 +10,7 @@ export interface RetornoInfo {
     Numero?: number;
     Serie?: number;
     ChaveNF?: string;
+    NumeroProtocolo?: string;
     CodTipoAmbiente?: number;
     DsTipoAmbiente?: string;
     CodStatusRespostaSefaz?: number;
