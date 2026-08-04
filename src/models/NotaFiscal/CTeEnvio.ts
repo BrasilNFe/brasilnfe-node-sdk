@@ -1,5 +1,6 @@
 import { Pessoa } from '../Outros/Pessoa';
 import { NewError } from '../Outros/Erros';
+import { IBSCBS } from './NotaFiscalEnvio';
 
 export interface CteParticipante extends Pessoa {
     CpfCnpj?: string;
@@ -181,6 +182,11 @@ export interface CteImposto {
  * Lista de PIS e COFINS (Tributos Federais).
  */
     TributosFederal?: TributoFederal;
+/**
+ * Informações do IBS/CBS (Reforma Tributária - NT 2025.001). Quando preenchido,
+ * gera o grupo imp/IBSCBS no XML do CT-e.
+ */
+    IBSCBS?: IBSCBS;
 }
 
 export interface TributoFederal {

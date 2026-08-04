@@ -765,8 +765,28 @@ export interface NotaFiscalEnvio {
  * 2 - Complementar
  * 3 - Ajuste
  * 4 - Devolução
+ * 5 - Nota de crédito
+ * 6 - Nota de débito
  */
     Finalidade?: number;
+/**
+ * Tipo de Nota de Débito. Obrigatório quando Finalidade = 6. Código SEFAZ:
+ * 1 - Transferência de créditos para Cooperativas
+ * 2 - Anulação de Crédito por Saídas Imunes/Isentas
+ * 3 - Débitos de notas fiscais não processadas na apuração
+ * 4 - Multa e juros
+ * 5 - Transferência de crédito de sucessão
+ * 6 - Pagamento antecipado
+ * 7 - Perda em estoque
+ */
+    TpNFDebito?: number;
+/**
+ * Tipo de Nota de Crédito. Obrigatório quando Finalidade = 5. Código SEFAZ:
+ * 1 - Multa e juros
+ * 2 - Apropriação de crédito presumido de IBS sobre saldo devedor na ZFM
+ * 3 - Retorno
+ */
+    TpNFCredito?: number;
 /**
  * Identificação do Ambiente
  * 1 - Produção

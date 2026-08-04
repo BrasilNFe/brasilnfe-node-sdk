@@ -1,10 +1,6 @@
-import { Erros } from '../Outros/Erros';
+import { NewError } from '../Outros/Erros';
 
-export interface StatusSefazRetorno extends Erros {
-    StatusSefaz?: StatusSefaz;
-}
-
-export interface StatusSefaz {
+export interface StatusSefazRetorno extends NewError {
     Versao?: string;
     CodTipoAmbiente?: number;
     DsTipoAmbiente?: string;
@@ -13,4 +9,3 @@ export interface StatusSefaz {
     CodEstadoEmitente?: number;
     DsEstadoEmitente?: string;
 }
-

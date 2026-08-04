@@ -136,6 +136,158 @@ export interface Rodoviario {
  * Lista de veículos de reboque acoplados à tração. Opcional.
  */
     reboques?: VeiculoReboque[];
+/**
+ * Informações dos contratantes do serviço de transporte (grupo infANTT/infContratante). Opcional.
+ */
+    contratantes?: Contratante[];
+/**
+ * Informações de vale-pedágio (grupo infANTT/valePed). Opcional.
+ */
+    valePedagio?: ValePedagio;
+/**
+ * Informações de pagamento do frete (grupo infANTT/infPag). Opcional.
+ */
+    pagamentos?: InformacaoPagamento[];
+}
+
+export interface InformacaoPagamento {
+/**
+ * CPF, CNPJ ou identificador estrangeiro do responsável pelo pagamento do frete.
+ */
+    cpfCnpjResponsavel?: string;
+/**
+ * Razão social ou nome do responsável pelo pagamento.
+ */
+    nomeResponsavel?: string;
+/**
+ * Componentes do pagamento do frete.
+ */
+    componentes?: ComponentePagamento[];
+/**
+ * Valor total do contrato.
+ */
+    valorContrato?: number;
+/**
+ * Operação de transporte de alto desempenho (frota dedicada/fidelizada).
+ */
+    altoDesempenho?: boolean;
+/**
+ * Forma de pagamento: 0 - à vista; 1 - a prazo.
+ */
+    indicadorPagamento?: number;
+/**
+ * Valor do adiantamento (usar apenas em pagamento a prazo). Opcional.
+ */
+    valorAdiantamento?: number;
+/**
+ * Concordância em antecipar o adiantamento.
+ */
+    anteciparAdiantamento?: boolean;
+/**
+ * Parcelas do pagamento (informar somente se a prazo).
+ */
+    parcelas?: ParcelaPagamento[];
+/**
+ * Permissão de antecipação das parcelas: 0 - não permite; 1 - permite; 2 - permite mediante confirmação. Opcional.
+ */
+    tipoAntecipacao?: number;
+/**
+ * Informações bancárias para recebimento do frete.
+ */
+    infoBancaria?: InfoBancaria;
+}
+
+export interface ComponentePagamento {
+/**
+ * Tipo do componente: 01 - Vale-Pedágio; 02 - Impostos, taxas e contribuições; 03 - Despesas; 99 - Outros.
+ */
+    tipo?: string;
+/**
+ * Valor do componente.
+ */
+    valor?: number;
+/**
+ * Descrição do componente (usar quando tipo = 99).
+ */
+    descricao?: string;
+}
+
+export interface ParcelaPagamento {
+/**
+ * Número da parcela.
+ */
+    numero?: number;
+/**
+ * Data de vencimento da parcela. Opcional.
+ */
+    vencimento?: string;
+/**
+ * Valor da parcela. Opcional.
+ */
+    valor?: number;
+}
+
+export interface InfoBancaria {
+/**
+ * Número do banco. Informar junto com a agência (ou use cnpjInstituicaoPagamento, ou pix).
+ */
+    codBanco?: string;
+/**
+ * Número da agência bancária.
+ */
+    codAgencia?: string;
+/**
+ * CNPJ da instituição de pagamento eletrônico do frete (alternativa ao banco/agência).
+ */
+    cnpjInstituicaoPagamento?: string;
+/**
+ * Chave PIX para recebimento do frete (alternativa ao banco/agência).
+ */
+    pix?: string;
+}
+
+export interface Contratante {
+/**
+ * CPF, CNPJ ou identificador estrangeiro do contratante do serviço.
+ */
+    cpfCnpj?: string;
+/**
+ * Razão social ou nome do contratante.
+ */
+    nome?: string;
+/**
+ * Número do contrato para prestações continuadas.
+ */
+    nroContrato?: string;
+/**
+ * Valor global do contrato (informar somente no pagamento a prazo). Opcional.
+ */
+    vContratoGlobal?: number;
+}
+
+export interface ValePedagio {
+    dispositivos?: ValePedagioDispositivo[];
+/**
+ * Categoria de combinação veicular (02 a 14 conforme o número de eixos).
+ */
+    categoriaCombinacaoVeicular?: string;
+}
+
+export interface ValePedagioDispositivo {
+    cnpjFornecedor?: string;
+/**
+ * CPF/CNPJ do pagador (informar quando não for o emitente).
+ */
+    cpfCnpjPagador?: string;
+    numeroComprovante?: string;
+    valor?: number;
+/**
+ * Tipo do vale-pedágio.
+ * 01 - TAG
+ * 02 - Cupom
+ * 03 - Cartão
+ */
+    tipo?: string;
 }
 
 export interface VeiculoReboque {

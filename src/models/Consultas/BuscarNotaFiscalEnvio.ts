@@ -16,6 +16,6 @@ export interface BuscarNotaFiscalEnvio {
 /**
  * Busca notas que possui o código interno informado (somente saídas)
  */
-    IndentificadorInterno?: string;
+    IdentificadorInterno?: string;
 }
 
