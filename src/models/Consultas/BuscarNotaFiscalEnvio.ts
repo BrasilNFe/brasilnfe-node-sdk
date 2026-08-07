@@ -1,5 +1,11 @@
 export interface BuscarNotaFiscalEnvio {
 /**
+ * Identificação do ambiente
+ * 1 - Produção
+ * 2 - Homologação
+ */
+    TipoAmbiente?: number;
+/**
  * Tipo do documento fiscal (Padrão 0 - Entrada)
  * 0 - Entradas
  * 1 - Saídas

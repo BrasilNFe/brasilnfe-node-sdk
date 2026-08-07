@@ -1,4 +1,4 @@
-import { Pessoa } from '../Outros/Pessoa';
+import { Pessoa, Endereco } from '../Outros/Pessoa';
 
 export interface NotaFiscalServicoEnvio {
     TipoAmbiente?: number;
@@ -253,6 +253,15 @@ export interface IBSCBSServico {
  */
     CodIndicadorOperacao?: string;
 /**
+ * Endereço do imóvel onde o serviço foi prestado. Obrigatório (grupo imovel na DPS) quando o cIndOp é de operação sobre bem imóvel (020101/020201/020301).
+ * É um endereço próprio da operação (NÃO o do tomador); se ficar vazio nesses casos, cai no endereço do tomador.
+ */
+    EnderecoImovel?: Endereco;
+/**
+ * Inscrição imobiliária fiscal (IPTU) do imóvel - opcional, dentro do grupo imovel.
+ */
+    InscricaoImobiliariaImovel?: string;
+/**
  * Indica operação de uso ou consumo pessoal (indFinal). 0 - Não (padrão); 1 - Sim.
  */
     IndicadorUsoFinal?: number;
@@ -260,6 +269,11 @@ export interface IBSCBSServico {
  * Indicador do destinatário dos serviços (indDest). 0 - destinatário é o próprio tomador (padrão); 1 - destinatário não é o adquirente.
  */
     IndicadorDestinatario?: number;
+/**
+ * Tipo de Operação (tpOper). Obrigatório para os serviços da LC 116/2003 25.05, 15.09, 17.12 e 10.05 (senão a prefeitura recusa com E0903). Se omitido nesses casos, assume 5.
+ * 1 - Fornecimento com pagamento posterior; 2 - Recebimento do pagamento com fornecimento já realizado; 3 - Fornecimento com pagamento já realizado; 4 - Recebimento do pagamento com fornecimento posterior; 5 - Fornecimento e recebimento do pagamento concomitantes.
+ */
+    TipoOperacao?: number;
 /**
  * Alíquota do IBS Estadual (pIBSUF) em %. Se omitido, usa 0,10% (padrão de teste 2025-2026).
  */
