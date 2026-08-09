@@ -10,6 +10,18 @@ export interface SpedRetorno extends Erros {
 
 export interface Detalhamento {
     SaldoCredorTransportarIcmsIpi?: number;
+/**
+ * Saldo credor de IPI a transportar para o período seguinte (E520/VL_SC_IPI).
+ */
+    SaldoCredorTransportarIpi?: number;
+/**
+ * Saldo de créditos de PIS a transportar para o período seguinte (M100/SLD_CRED). EFD Contribuições.
+ */
+    SaldoCredorTransportarPis?: number;
+/**
+ * Saldo de créditos de COFINS a transportar para o período seguinte (M500/SLD_CRED). EFD Contribuições.
+ */
+    SaldoCredorTransportarCofins?: number;
     DFes?: DetalhamentoDFe[];
 }
 

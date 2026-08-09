@@ -94,6 +94,26 @@ export interface EfdIcmsIpiInfo {
  * Ajustes / benefícios / incentivos da Apuração do ICMS
  */
     AjustesApuracao?: AjusteApuracaoIcmsIpi[];
+/**
+ * Alimenta o registro 1400 (valores agregados por município - IPM). Ao informar itens,
+ * o indicador IND_VA do registro 1010 é marcado automaticamente como "S".
+ */
+    ValoresAgregadosIpm?: ValorAgregadoIpm[];
+}
+
+export interface ValorAgregadoIpm {
+/**
+ * Código do item - próprio IPM ou o COD_ITEM do registro 0200.
+ */
+    CodItem?: string;
+/**
+ * Código IBGE (7 dígitos) do município de origem/destino.
+ */
+    CodMunicipio?: string;
+/**
+ * Valor mensal correspondente ao município.
+ */
+    Valor?: number;
 }
 
 export interface EfdPisCofinsInfo {
@@ -213,6 +233,12 @@ export interface Producao {
     Quantidade?: number;
     Produto?: SpedProdutoInfo;
     Insumos?: Insumo[];
+/**
+ * Quando verdadeiro, a produção foi industrializada por terceiros e gera K250/K255;
+ * caso contrário (padrão) é produção própria e gera K230/K235. O K250 não possui ordem
+ * de produção, portanto CodOrdemProducao é ignorado quando este indicador está ativo.
+ */
+    IndustrializacaoTerceiros?: boolean;
 }
 
 export interface Insumo {
