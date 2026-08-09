@@ -607,6 +607,10 @@ const empresas = await bnfe.empresa.buscarTodasEmpresas();
 | `gerarLinkAtivacao` | `GerarLinkAtivacao` | — | `string` (URL Fintely) |
 | `consultarNumeracao` | `ConsultarNumeracao` | — | `ConsultarNumeracaoRetorno` |
 | `atualizarNumeracao` | `AtualizarNumeracao` | `Numeracao` | `AtualizarNumeracaoRetorno` |
+| `ativarAssinatura` | `AtivarAssinatura` | `AtivarAssinaturaEnvio` (opcional) | `AtivarAssinaturaRetorno` |
+| `cancelarAssinatura` | `CancelarAssinatura` | `CancelarAssinaturaEnvio` | `CancelarAssinaturaRetorno` |
+| `consultarServicos` | `ConsultarServicos` | — | `ConsultarServicosRetorno` |
+| `consultarFaturas` | `ConsultarFaturas` | — | `ConsultarFaturasRetorno` |
 
 ## Tratamento de Erros
 

@@ -7,6 +7,12 @@ import {
     Numeracao,
     ConsultarNumeracaoRetorno,
     AtualizarNumeracaoRetorno,
+    AtivarAssinaturaEnvio,
+    AtivarAssinaturaRetorno,
+    CancelarAssinaturaEnvio,
+    CancelarAssinaturaRetorno,
+    ConsultarServicosRetorno,
+    ConsultarFaturasRetorno,
 } from '../models';
 
 export class Empresa extends BrasilNFeRequest {
@@ -41,5 +47,41 @@ export class Empresa extends BrasilNFeRequest {
     }
     public async atualizarNumeracao(numeracao: Numeracao): Promise<AtualizarNumeracaoRetorno> {
         return this.request<AtualizarNumeracaoRetorno, Numeracao>(numeracao, "AtualizarNumeracao");
+    }
+
+    /**
+     * Ativa a assinatura da empresa diretamente, sem passar pelo checkout web:
+     * cria a cobrança e retorna PIX copia-e-cola / QR Code / boleto prontos.
+     * Os serviços são ativados automaticamente após a confirmação do pagamento.
+     * Chamadas repetidas com os mesmos serviços reaproveitam a cobrança pendente.
+     */
+    public async ativarAssinatura(envio?: AtivarAssinaturaEnvio): Promise<AtivarAssinaturaRetorno> {
+        return this.request<AtivarAssinaturaRetorno, AtivarAssinaturaEnvio>(envio ?? {}, "AtivarAssinatura");
+    }
+
+    /**
+     * Cancela a assinatura dos serviços informados: cancela as assinaturas
+     * em andamento da empresa no gateway de cobrança e desativa os serviços.
+     * Cobranças pendentes dessas assinaturas são canceladas junto.
+     */
+    public async cancelarAssinatura(envio: CancelarAssinaturaEnvio): Promise<CancelarAssinaturaRetorno> {
+        return this.request<CancelarAssinaturaRetorno, CancelarAssinaturaEnvio>(envio, "CancelarAssinatura");
+    }
+
+    /**
+     * Consulta os serviços disponíveis para contratação e a situação
+     * (ativo ou não) de cada um na empresa. Os nomes retornados são os
+     * aceitos no campo Servicos de ativarAssinatura.
+     */
+    public async consultarServicos(): Promise<ConsultarServicosRetorno> {
+        return this.request<ConsultarServicosRetorno, string>("", "ConsultarServicos");
+    }
+
+    /**
+     * Consulta as faturas de assinatura da empresa (pendentes e pagas),
+     * da mais recente para a mais antiga.
+     */
+    public async consultarFaturas(): Promise<ConsultarFaturasRetorno> {
+        return this.request<ConsultarFaturasRetorno, string>("", "ConsultarFaturas");
     }
 }

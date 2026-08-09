@@ -25,8 +25,14 @@ export * from './Consultas/StatusSefazEnvio';
 export * from './Consultas/StatusSefazRetorno';
 
 // Empresa
+export * from './Empresa/AtivarAssinaturaEnvio';
+export * from './Empresa/AtivarAssinaturaRetorno';
+export * from './Empresa/CancelarAssinaturaEnvio';
+export * from './Empresa/CancelarAssinaturaRetorno';
 export * from './Empresa/CertificadoEnvio';
 export * from './Empresa/CertificadoRetorno';
+export * from './Empresa/ConsultarFaturasRetorno';
+export * from './Empresa/ConsultarServicosRetorno';
 export * from './Empresa/EmpresaEnvio';
 export * from './Empresa/EmpresaRetorno';
 export * from './Empresa/Numeracao';
