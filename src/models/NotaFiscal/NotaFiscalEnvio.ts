@@ -506,6 +506,19 @@ export interface Pagamento {
     VlPago?: number;
     VlTroco?: number;
 /**
+ * Data do pagamento (dPag - NT 2023.004). Opcional.
+ */
+    DataPagamento?: string;
+/**
+ * CNPJ do estabelecimento onde o pagamento foi processado/transacionado/recebido (CNPJPag - NT 2023.004).
+ * Informar junto com UFPagamento (os dois ou nenhum). Opcional.
+ */
+    CNPJPagamento?: string;
+/**
+ * UF do estabelecimento onde o pagamento foi processado (UFPag - NT 2023.004). Opcional.
+ */
+    UFPagamento?: string;
+/**
  * Pagamento integrado com automação?
  */
     TipoIntegracao?: boolean;
@@ -524,6 +537,14 @@ export interface Pagamento {
  */
     BandeiraOperadora?: string;
     NumeroAutorizacao?: string;
+/**
+ * CNPJ do beneficiário do pagamento (CNPJReceb - NT 2023.004). Opcional.
+ */
+    CNPJRecebedor?: string;
+/**
+ * Identificador do terminal de pagamento (idTermPag - NT 2023.004). Opcional, 1-40 caracteres.
+ */
+    IdTerminalPagamento?: string;
 }
 
 export interface Cobranca {

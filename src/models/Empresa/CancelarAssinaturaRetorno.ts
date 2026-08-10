@@ -13,7 +13,13 @@ export interface CancelarAssinaturaRetorno extends NewError {
  */
     AssinaturasCanceladas?: number[];
 /**
- * Serviços desativados na empresa (textos).
+ * true quando o cancelamento é no fim do período (assinatura paga): o(s) serviço(s)
+ * continuam ativos até AcessoAte e são desativados automaticamente depois.
+ * false = desativação imediata (nunca foi paga).
  */
-    ServicosDesativados?: string[];
+    AcessoAteFimDoPeriodo?: boolean;
+/**
+ * Data até quando o acesso continua, quando cancelado no fim do período.
+ */
+    AcessoAte?: string;
 }
