@@ -576,7 +576,7 @@ const empresas = await bnfe.empresa.buscarTodasEmpresas();
 | `buscarNotaFiscalServico` | `BuscarNotaFiscalServico` | `BuscarNotaFiscalServicoEnvio` | `NotaFiscalServicoRetorno` |
 | `obterNotasFiscais` | `ObterNotasFiscais` | `BuscarNotaFiscalEnvio` | `BuscarNotaFiscalRetorno` |
 | `consultarCadastroSefaz` | `ConsultarCadastroSefaz` | `ConsultarCadastroEnvio` | `ConsultarCadastroRetorno` |
-| `obterArquivoSped` | `ObterArquivoSped/?codigo=` | `string` (código) | `SpedRetorno` |
+| `obterArquivoSped` | `BuscarArquivoSped/?codigo=` | `string` (código) | `SpedRetorno` |
 | `consultarLoteNFe` | `ConsultarLoteNFe` | `ConsultarLoteNFeEnvio` | `NotaFiscalLoteRetorno` |
 
 ### `arquivos`

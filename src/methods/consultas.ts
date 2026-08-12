@@ -35,7 +35,7 @@ export class Consultas extends BrasilNFeRequest {
     }
 
     public async obterArquivoSped(codigo: string): Promise<SpedRetorno> {
-        return this.request<SpedRetorno, string>(codigo, `ObterArquivoSped/?codigo=${codigo}`);
+        return this.request<SpedRetorno, string>(codigo, `BuscarArquivoSped/?codigo=${codigo}`);
     }
 
     public async consultarLoteNFe(envio: ConsultarLoteNFeEnvio): Promise<NotaFiscalLoteRetorno> {
