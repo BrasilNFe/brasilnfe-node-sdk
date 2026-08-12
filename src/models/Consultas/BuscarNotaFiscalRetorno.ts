@@ -8,6 +8,7 @@ export interface BuscarNotaFiscalRetornoInfo {
     Chave?: string;
     IdentificadorInterno?: string;
     CodLote?: string;
+    Serie?: string;
     Numero?: number;
 /**
  * Modelo do documento fiscal

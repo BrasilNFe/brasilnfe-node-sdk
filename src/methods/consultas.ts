@@ -34,7 +34,7 @@ export class Consultas extends BrasilNFeRequest {
         return this.request<ConsultarCadastroRetorno, ConsultarCadastroEnvio>(envio, "ConsultarCadastroSefaz");
     }
 
-    public async obterArquivoSped(codigo: string): Promise<SpedRetorno> {
+    public async buscarArquivoSped(codigo: string): Promise<SpedRetorno> {
         return this.request<SpedRetorno, string>(codigo, `BuscarArquivoSped/?codigo=${codigo}`);
     }
 
