@@ -71,9 +71,14 @@ export interface EfdIcmsIpiInfo {
  */
     IndicadorLeituante?: number;
 /**
- * Valor total do saldo credor do período anterior
+ * Valor total do saldo credor de ICMS do período anterior (E110/VL_SLD_CREDOR_ANT).
  */
     ValorSldCredorAnterior?: number;
+/**
+ * Valor do saldo credor de IPI do período anterior a transportar para a apuração do IPI (E520/VL_SD_ANT_IPI).
+ * Informe o SaldoCredorTransportarIpi retornado no Detalhamento do mês anterior para encadear a apuração.
+ */
+    ValorSldCredorAnteriorIpi?: number;
 /**
  * Alimenta o bloco 1.
  */
